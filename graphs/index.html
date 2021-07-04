@@ -1,0 +1,865 @@
+<!-- $Id: graphs-query.html,v 1.21 2005/07/30 01:12:04 grout Exp $ -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html> 
+<head> 
+<script type="text/javascript" language="javascript" src="form.js"> 
+</script>
+
+<STYLE type="text/css">
+.showSwitch {
+        display: block;
+}
+.hideSwitch {
+        display: none;
+}
+
+/*DIV.expandMenu {
+	position: top;
+}
+
+DIV.filledExpandMenu {
+        position: top;
+}*/
+
+
+DIV.expandMenu  DIV.menuTitle {
+        text-transform: uppercase;
+	font-weight: bold;
+	font-size: larger;
+        background-color: #DDDDDD;
+        padding: 8px;
+        margin: 0px 0px 1px;
+        cursor: hand;
+	border: 1px;
+}
+
+DIV.filledExpandMenu  DIV.menuTitle {
+        text-transform: uppercase;
+	font-weight: bold;
+	font-size: larger;
+	color: white;
+        background-color: #333377;
+        padding: 8px;
+        margin: 0px 0px 1px;
+        cursor: hand;
+	border: 1px;
+}
+
+
+DIV.expandMenu DIV.hideSwitch {
+        margin: 0px;
+        padding: 0px;
+}
+
+DIV.expandMenu DIV.showSwitch {
+        margin: 0px 0px 0px 30px;
+        padding: 0px;
+}
+
+
+DIV.filledExpandMenu DIV.hideSwitch {
+        margin: 0px;
+        padding: 0px;
+}
+
+DIV.filledExpandMenu DIV.showSwitch {
+        margin: 0px 0px 0px 30px;
+        padding: 0px;
+}
+
+
+
+DIV.expandMenu table {
+        border-collapse: collapse;
+	border-width: thin;
+/*        width: 100%;*/
+}
+
+.expandMenu td {
+        text-align: center;
+        padding-right: 10px;
+        padding-left: 10px;
+	border-width: 1px 0 1px 0;
+        border-style: solid;
+}
+
+DIV.filledExpandMenu table {
+        border-collapse: collapse;
+	border-width: thin;
+/*        width: 100%;*/
+}
+
+DIV.filledExpandMenu td {
+        text-align: center;
+        padding-right: 10px;
+        padding-left: 10px;
+	border-width: 1px 0 1px 0;
+        border-style: solid;
+}
+
+DIV.expandMenu td.filled {
+background-color: red;
+color: white;
+}
+
+DIV.filledExpandMenu td.filled {
+background-color: red;
+color: white;
+}
+
+DIV.expandMenu tr.visible {
+background-color:  #333377;
+color: white;
+}
+
+DIV.filledExpandMenu tr.visible {
+background-color:  #333377;
+color: white;
+}
+
+
+
+DIV.expandMenu thead td {
+        font-weight: bolder;
+	font-size: larger;
+        border-style: none;
+	text-align: center;
+}
+
+DIV.filledExpandMenu thead td {
+        font-weight: bolder;
+	font-size: larger;
+        border-style: none;
+	text-align: center;
+}
+
+/*input:focus {
+	background-color: #ffffdd;
+}*/
+
+SPAN.showItems {
+        font-size: smaller;
+	//	font-style: italic;
+	font-weight: normal;
+	text-transform: none;
+	
+}
+
+SPAN.itemlabel {
+/*         font-weight: bolder; */
+}
+
+tr.visible SPAN.itemlabel {
+    font-weight: bolder;
+}
+
+
+</STYLE>
+
+
+</head> 
+<BODY>
+
+<h1>Graph Database</h1>
+
+<p>The database contains graphs up through 8 vertices.  </p> 
+
+<p>Click on a heading to see the options you can change in your query.
+Click "Get Graphs" to get the graphs.</p>
+
+<p>Check the "Visible" checkbox next to the criteria to have that field
+visible in the result.  For criteria like induced subgraphs, forbidden
+subgraphs, or graph6 graphs, enter a list of graphs in graph6 format,
+separated by commas.</p>
+
+<p>The filtering criteria apply whether or not that item is marked
+"visible" and shown in the results.</p>
+<p>I am currently working on the new version of this database and the query interface.  An early (alpha) version of the new interface is at <a href="http://good.math.iastate.edu/grout/graphs-2/">http://good.math.iastate.edu/grout/graphs-2/</a>.  This interface requires Javascript.  Please email me if you have any suggestions or see any bugs in the interface.</p>
+<hr/>
+
+<form action='graphs.php' method=POST name='graphquery'> 
+<!-- <input name="btn" type="button" onclick="CheckAll();" value="Make All Visible"/>  -->
+<!-- <input name="btn" type="button" onclick="UncheckAll();" value="Make All Not Visible"/>  -->
+Graphs per page: <input type='text' name='rows_per_page' size=5 value='30'/><br/>
+<input type='hidden' name='page' value='1'/>
+
+<br/>
+
+
+<input type=submit name='Get Graphs' value='Get Graphs'/> 
+<input type=reset name='Clear Form' onclick="checkMenus();" value='Reset Form'/>
+
+<br/>
+
+<table width="100%"><tr valign="top" ><td width="50%">
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtGeneralGraphInfo"  onclick="showHideSwitch('ddGeneralGraphInfo')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddGeneralGraphInfoButton"
+  width="9" height="9" id="ddGeneralGraphInfoButton">
+  General Graph Info <br/><SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddGeneralGraphInfo">    
+
+<TABLE> 
+      <THEAD>
+<tr>  
+<td>Visible</td>
+<td colspan=3>Search Criteria</td>
+</tr>
+</THEAD>
+      <TBODY>
+<tr title="Graph picture"><td >
+<input type=checkbox name='PICTURE[]' value='graph_id' CHECKED />
+</td><td colspan=3>
+<span class="itemlabel">Graph picture</span>
+</td></tr>
+
+
+<tr title="Graph6 code"><td >
+<input type=checkbox name='VISIBLE[]' value='graph6_canonical' />
+</td><td colspan=3>
+<span class="itemlabel">Graph6 code</span> IS ONE OF
+ <input type=text name='graph6_canonical_CONTAINS_GRAPHS' id='graph6_canonical_CONTAINS_GRAPHS' size=30 />
+</td></tr>
+
+
+
+<tr title="Number of vertices"><td >
+<input type=checkbox name='VISIBLE[]' value='vertices'  />
+</td><td >
+<input type=text name='vertices_BOTTOM' id='vertices_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">number of vertices</span> <=
+</td><td >
+<input type=text name='vertices_TOP' id='vertices_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Number of edges"><td >
+<input type=checkbox name='VISIBLE[]' value='edges'  />
+</td><td >
+<input type=text name='edges_BOTTOM' id='edges_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">number of edges</span> <=
+</td><td >
+<input type=text name='edges_TOP' id='edges_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Number of cycles"><td >
+<input type=checkbox name='VISIBLE[]' value='cycles'  />
+</td><td >
+<input type=text name='cycles_BOTTOM' id='cycles_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">number of cycles</span> <=
+</td><td >
+<input type=text name='cycles_TOP' id='cycles_TOP' size=5/>
+</td></tr>
+
+<tr title="Number of Hamiltonian cycles"><td >
+<input type=checkbox name='VISIBLE[]' value='hamiltonian_cycles'  />
+</td><td >
+<input type=text name='hamiltonian_cycles_BOTTOM' id='hamiltonian_cycles_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">number of Hamiltonian cycles</span> <=
+</td><td >
+<input type=text name='hamiltonian_cycles_TOP' id='hamiltonian_cycles_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Eulerian"><td >
+<input type=checkbox name='VISIBLE[]' value='eulerian'  />
+</td><td title="test">
+<input type=checkbox name='eulerian_TRUE' value='1'/> TRUE
+</td><td >
+<span class="itemlabel">Eulerian</span>
+</td><td >
+<input type=checkbox name='eulerian_FALSE' value='0'/> FALSE
+</td></tr>
+
+
+<tr title="Planar"><td >
+<input type=checkbox name='VISIBLE[]' value='planar'  />
+</td><td >
+<input type=checkbox name='planar_TRUE' value='1'/> TRUE
+</td><td >
+<span class="itemlabel">Planar</span>
+</td><td >
+<input type=checkbox name='planar_FALSE' value='0'/> FALSE
+</td></tr>
+
+
+<tr title="Perfect"><td >
+<input type=checkbox name='VISIBLE[]' value='perfect'  />
+</td><td >
+<input type=checkbox name='perfect_TRUE' value='1'/> TRUE
+</td><td >
+<span class="itemlabel">Perfect</span>
+</td><td >
+<input type=checkbox name='perfect_FALSE' value='0'/> FALSE
+</td></tr>
+
+
+
+
+<tr title="Lovasz number"><td >
+<input type=checkbox name='VISIBLE[]' value='lovasz_num'  />
+</td><td >
+<input type=text name='lovasz_num_BOTTOM' id='lovasz_num_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Lovasz number</span> <=
+</td><td >
+<input type=text name='lovasz_num_TOP' id='lovasz_num_TOP' size=5/>
+</td></tr>
+
+</TBODY>
+    </TABLE>
+  </DIV>
+</DIV>
+
+
+
+
+
+<!-- ***************** CONNECTIVITY ***************************-->
+
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtConnectivity"  onclick="showHideSwitch('ddConnectivity')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddConnectivityButton"
+  width="9" height="9" id="ddConnectivityButton">
+  Connectivity <br/><SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddConnectivity">    
+
+<TABLE>     
+      <THEAD>
+<tr>
+<td>Visible</td>
+<td colspan=3>Search Criteria</td>
+</tr>
+</THEAD>
+      <TBODY>
+
+<tr title="Vertex connectivity"><td >
+<input type=checkbox name='VISIBLE[]' value='vertex_connectivity'  />
+</td><td >
+<input type=text name='vertex_connectivity_BOTTOM' id='vertex_connectivity_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Vertex connectivity</span> <=
+</td><td >
+<input type=text name='vertex_connectivity_TOP' id='vertex_connectivity_TOP' size=5/>
+</td></tr>
+
+<tr title="Edge connectivity"><td >
+<input type=checkbox name='VISIBLE[]' value='edge_connectivity'  />
+</td><td >
+<input type=text name='edge_connectivity_BOTTOM' id='edge_connectivity_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Edge connectivity</span> <=
+</td><td >
+<input type=text name='edge_connectivity_TOP' id='edge_connectivity_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Number of Components"><td >
+<input type=checkbox name='VISIBLE[]' value='components'  />
+</td><td >
+<input type=text name='components_BOTTOM' id='components_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Number of Components</span> <=
+</td><td >
+<input type=text name='components_TOP' id='components_TOP' size=5/>
+</td></tr>
+
+
+
+<tr title="Girth"><td >
+<input type=checkbox name='VISIBLE[]' value='girth'  />
+</td><td >
+<input type=text name='girth_BOTTOM' id='girth_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Girth</span> <=
+</td><td >
+<input type=text name='girth_TOP' id='girth_TOP' size=5/>
+</td></tr>
+
+<tr title="Radius"><td >
+<input type=checkbox name='VISIBLE[]' value='radius'  />
+</td><td >
+<input type=text name='radius_BOTTOM' id='radius_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Radius</span> <=
+</td><td >
+<input type=text name='radius_TOP' id='radius_TOP' size=5/>
+</td></tr>
+
+<tr title="Diameter"><td >
+<input type=checkbox name='VISIBLE[]' value='diameter'  />
+</td><td >
+<input type=text name='diameter_BOTTOM' id='diameter_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Diameter</span> <=
+</td><td >
+<input type=text name='diameter_TOP' id='diameter_TOP' size=5/>
+</td></tr>
+
+<tr title="Clique number"><td >
+<input type=checkbox name='VISIBLE[]' value='clique_number'  />
+</td><td >
+<input type=text name='clique_number_BOTTOM' id='clique_number_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Clique Number</span> <=
+</td><td >
+<input type=text name='clique_number_TOP' id='clique_number_TOP' size=5/>
+</td></tr>
+
+<tr title="Independence number"><td >
+<input type=checkbox name='VISIBLE[]' value='independence_number'  />
+</td><td >
+<input type=text name='independence_number_BOTTOM' id='independence_number_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Independence Number</span> <=
+</td><td >
+<input type=text name='independence_number_TOP' id='independence_number_TOP' size=5/>
+</td></tr>
+
+<tr title="Number of cut vertices"><td >
+<input type=checkbox name='VISIBLE[]' value='cut_vertices'  />
+</td><td >
+<input type=text name='cut_vertices_BOTTOM' id='cut_vertices_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Number of Cut Vertices</span> <=
+</td><td >
+<input type=text name='cut_vertices_TOP' id='cut_vertices_TOP' size=5/>
+</td></tr>
+
+<tr title="Size of the minimum vertex cover"><td >
+<input type=checkbox name='VISIBLE[]' value='min_vertex_cover'  />
+</td><td >
+<input type=text name='min_vertex_cover_BOTTOM' id='min_vertex_cover_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Size of the Minimum Vertex Cover</span> <=
+</td><td >
+<input type=text name='min_vertex_cover_TOP' id='min_vertex_cover_TOP' size=5/>
+</td></tr>
+
+<tr title="Number of spanning trees"><td >
+<input type=checkbox name='VISIBLE[]' value='spanning_trees'  />
+</td><td >
+<input type=text name='spanning_trees_BOTTOM' id='spanning_trees_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Number of Spanning Trees</span> <=
+</td><td >
+<input type=text name='spanning_trees_TOP' id='spanning_trees_TOP' size=5/>
+</td></tr>
+
+</TBODY>
+    </TABLE>
+  </DIV>
+</DIV>
+
+
+</td><td width="50%">
+
+
+<!-- ***************** Degrees ***************************-->
+
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtDegrees"  onclick="showHideSwitch('ddDegrees')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddDegreesButton"
+  width="9" height="9" id="ddDegreesButton">
+  Degrees <br/> <SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddDegrees">    
+
+<TABLE>     
+      <THEAD>
+<tr>
+<td>Visible</td>
+<td colspan=3>Search Criteria</td>
+</tr>
+</THEAD>
+      <TBODY>
+
+
+
+
+
+<tr title="Degree sequence"><td >
+<input type=checkbox name='VISIBLE[]' value="deg_seq"  />
+</td><td colspan=3>
+<span class="itemlabel">Degree sequence IS ONE OF</span>
+<input type=text name='deg_seq_CONTAINS_DEGSEQ' id='deg_seq_CONTAINS_DEGSEQ' size=30/>
+</td></tr>
+
+<tr title="Minimum degree"><td >
+<input type=checkbox name='VISIBLE[]' value='min_deg'  />
+</td><td >
+<input type=text name='min_deg_BOTTOM' id='min_deg_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Minimum degree</span> <=
+</td><td >
+<input type=text name='min_deg_TOP' id='min_deg_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Maximum degree"><td >
+<input type=checkbox name='VISIBLE[]' value='max_deg'  />
+</td><td >
+<input type=text name='max_deg_BOTTOM' id='max_deg_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Maximum degree</span> <=
+</td><td >
+<input type=text name='max_deg_TOP' id='max_deg_TOP' size=5/>
+</td></tr>
+
+<tr title="Sum of degrees"><td >
+<input type=checkbox name='VISIBLE[]' value='sum_deg'  />
+</td><td >
+<input type=text name='sum_deg_BOTTOM' id='sum_deg_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Sum of degrees</span> <=
+</td><td >
+<input type=text name='sum_deg_TOP' id='sum_deg_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Average degree"><td >
+<input type=checkbox name='VISIBLE[]' value='avg_deg'  />
+</td><td >
+<input type=text name='avg_deg_BOTTOM' id='avg_deg_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Average degree</span> <=
+</td><td >
+<input type=text name='avg_deg_TOP' id='avg_deg_TOP' size=5/>
+</td></tr>
+
+<tr title="Standard Deviation of degrees"><td >
+<input type=checkbox name='VISIBLE[]' value='stdev_deg'  />
+</td><td >
+<input type=text name='stdev_deg_BOTTOM' id='stdev_deg_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Standard Deviation of degrees</span> <=
+</td><td >
+<input type=text name='stdev_deg_TOP' id='stdev_deg_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Regular"><td >
+<input type=checkbox name='VISIBLE[]' value='regular'  />
+</td><td >
+<input type=checkbox name='regular_TRUE' value='1'/> TRUE
+</td><td >
+<span class="itemlabel">Regular</span>
+</td><td >
+<input type=checkbox name='regular_FALSE' value='0'/> FALSE
+</td></tr>
+
+
+</TBODY>
+    </TABLE>
+  </DIV>
+  </DIV>
+
+
+
+<!-- ***************** Subgraphs ***************************-->
+
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtSubgraphs"  onclick="showHideSwitch('ddSubgraphs')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddSubgraphsButton"
+  width="9" height="9" id="ddSubgraphsButton">
+  Subgraphs <br/> <SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddSubgraphs">    
+
+<TABLE>     
+      <THEAD>
+<tr>
+<td>Visible</td>
+<td colspan=3>Search Criteria</td>
+</tr>
+</THEAD>
+      <TBODY>
+
+
+<tr title="Induced subgraphs"><td >
+<input type=checkbox name='VISIBLE[]' value="subgraph_list"  />
+</td><td colspan=3>
+<span class="itemlabel">Induced subgraph list</span>
+</td></tr>
+
+
+<tr title="Induced subgraphs contain one of &hellip;"><td >
+</td><td>
+<span class="itemlabel">Induced subgraphs (graph6) CONTAIN AT LEAST ONE OF</span>
+</td><td>
+<input type=text name='subgraphs_CONTAINS_SUBGRAPH_ONE' id='subgraphs_CONTAINS_SUBGRAPH_ONE' size=30/>
+</td></tr>
+
+<tr title="Induced subgraphs contain all of &hellip;"><td >
+</td><td>
+<span class="itemlabel">Induced subgraphs (graph6) CONTAIN ALL OF</span>
+</td><td>
+<input type=text name='subgraphs_CONTAINS_SUBGRAPH_ALL' id='subgraphs_CONTAINS_SUBGRAPH_ALL' size=30/>
+</td></tr>
+
+
+
+<tr title="Forbidden subgraphs contain one of &hellip;"><td >
+</td><td>
+<span class="itemlabel">Forbidden subgraphs (graph6) CONTAIN AT LEAST ONE OF</span>
+</td><td>
+<input type=text name='subgraphs_NOTCONTAINS_SUBGRAPH_ONE' id='subgraphs_NOTCONTAINS_SUBGRAPH_ONE' size=30/>
+</td></tr>
+
+<tr title="Forbidden subgraphs contain all of &hellip;"><td >
+</td><td>
+<span class="itemlabel">Forbidden subgraphs (graph6) CONTAIN ALL OF</span> 
+</td><td>
+<input type=text name='subgraphs_NOTCONTAINS_SUBGRAPH_ALL' id='subgraphs_NOTCONTAINS_SUBGRAPH_ALL' size=30/>
+</td></tr>
+
+
+
+
+
+
+</TBODY>
+    </TABLE>
+  </DIV>
+</DIV>
+
+
+
+<!-- ***************** Complement ***************************-->
+
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtComplements"  onclick="showHideSwitch('ddComplements')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddComplementsButton"
+  width="9" height="9" id="ddComplementsButton">
+  Complements <br/> <SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddComplements">    
+
+<TABLE>    
+      <THEAD>
+<tr>
+<td>Visible</td>
+</tr>
+</THEAD>
+      <TBODY>
+
+<tr title="Graph complement picture"><td >
+<input type=checkbox name='PICTURE[]' value='complement_id'  />
+</td><td >
+<span class="itemlabel">Graph complement picture</span>
+</td></tr>
+
+
+<tr title="Graph complement graph6 code"><td >
+<input type=checkbox name='VISIBLE[]' value='complement'  />
+</td><td >
+<span class="itemlabel">Graph complement graph6 code</span>
+</td></tr>
+
+
+
+
+
+</TBODY>
+    </TABLE>
+  </DIV>
+</DIV>
+
+
+
+<!-- ***************** Spectrum ***************************-->
+
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtSpectrum"  onclick="showHideSwitch('ddSpectrum')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddSpectrumButton"
+  width="9" height="9" id="ddSpectrumButton">
+  Graph Spectrum <br/> <SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddSpectrum">    
+
+<TABLE>     
+      <THEAD>
+<tr>
+<td>Visible</td>
+<td colspan=3>Search Criteria</td>
+</tr>
+</THEAD>
+      <TBODY>
+
+
+
+<tr title="Spectrum"><td >
+<input type=checkbox name='VISIBLE[]' value="spectrum"  />
+</td><td colspan=3>
+<span class="itemlabel">Spectrum</span>
+</td></tr>
+
+<tr title="Minimum eigenvalue"><td >
+<input type=checkbox name='VISIBLE[]' value='min_eig'  />
+</td><td >
+<input type=text name='min_eig_BOTTOM' id='min_eig_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Minimum eigenvalue</span> <=
+</td><td >
+<input type=text name='min_eig_TOP' id='min_eig_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Maximum eigenvalue"><td >
+<input type=checkbox name='VISIBLE[]' value='max_eig'  />
+</td><td >
+<input type=text name='max_eig_BOTTOM' id='max_eig_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Maximum eigenvalue</span> <=
+</td><td >
+<input type=text name='max_eig_TOP' id='max_eig_TOP' size=5/>
+</td></tr>
+
+<tr title="Standard deviation of eigenvalues"><td >
+<input type=checkbox name='VISIBLE[]' value='stdev_eig'  />
+</td><td >
+<input type=text name='stdev_eig_BOTTOM' id='stdev_eig_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Standard Deviation of eigenvalues</span> <=
+</td><td >
+<input type=text name='stdev_eig_TOP' id='stdev_eig_TOP' size=5/>
+</td></tr>
+
+<tr title="Energy (sum of absolute value of eigenvalues)"><td >
+<input type=checkbox name='VISIBLE[]' value='energy_eig'  />
+</td><td >
+<input type=text name='energy_eig_BOTTOM' id='energy_eig_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Energy (sum of absolute value of eigenvalues)</span> <=
+</td><td >
+<input type=text name='energy_eig_TOP' id='energy_eig_TOP' size=5/>
+</td></tr>
+
+
+
+</TBODY>
+    </TABLE>
+  </DIV>
+</DIV>
+
+
+<!-- ***************** Automorphism Group ***************************-->
+
+<DIV class="expandMenu">  
+<DIV class="menuTitle" id="dtAutomorphismGp"  onclick="showHideSwitch('ddAutomorphismGp')">
+<IMG  src="expandbutton-open.gif" alt="" name="ddAutomorphismGpButton"
+  width="9" height="9" id="ddAutomorphismGpButton">
+  Automorphism Group <br/> <SPAN class="showItems"></SPAN>
+  </DIV>
+  <DIV class="showSwitch" id="ddAutomorphismGp">    
+
+<TABLE>     
+      <THEAD>
+<tr>
+<td>Visible</td>
+<td colspan=3>Search Criteria</td>
+</tr>
+</THEAD>
+      <TBODY>
+
+
+<tr title="Automorphism group size"><td >
+<input type=checkbox name='VISIBLE[]' value='aut_grp_size'  />
+</td><td >
+<input type=text name='aut_grp_size_BOTTOM' id='aut_grp_size_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Automorphism group size</span> <=
+</td><td >
+<input type=text name='aut_grp_size_TOP' id='aut_grp_size_TOP' size=5/>
+</td></tr>
+
+<tr title="Number of orbits"><td >
+<input type=checkbox name='VISIBLE[]' value='orbits'  />
+</td><td >
+<input type=text name='orbits_BOTTOM' id='orbits_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Number of orbits</span> <=
+</td><td >
+<input type=text name='orbits_TOP' id='orbits_TOP' size=5/>
+</td></tr>
+
+<tr title="Number of fixed points"><td >
+<input type=checkbox name='VISIBLE[]' value='fixed_points'  />
+</td><td >
+<input type=text name='fixed_points_BOTTOM' id='fixed_points_BOTTOM' size=5/>
+</td><td >
+<= <span class="itemlabel">Number of fixed points</span> <=
+</td><td >
+<input type=text name='fixed_points_TOP' id='fixed_points_TOP' size=5/>
+</td></tr>
+
+
+<tr title="Vertex transitive"><td >
+<input type=checkbox name='VISIBLE[]' value='vertex_transitive'  />
+</td><td >
+<input type=checkbox name='vertex_transitive_TRUE' value='1'/> TRUE
+</td><td >
+<span class="itemlabel">Vertex Transitive</span> 
+</td><td >
+<input type=checkbox name='vertex_transitive_FALSE' value='0'/> FALSE
+</td></tr>
+
+
+<tr title="Edge transitive"><td >
+<input type=checkbox name='VISIBLE[]' value='edge_transitive'  />
+</td><td >
+<input type=checkbox name='edge_transitive_TRUE' value='1'/> TRUE
+</td><td >
+<span class="itemlabel">Edge Transitive</span> 
+</td><td >
+<input type=checkbox name='edge_transitive_FALSE' value='0'/> FALSE
+</td></tr>
+
+
+</TBODY>
+    </TABLE>
+  </DIV>
+</DIV>
+
+
+</td></tr></table>
+
+
+
+ 
+
+<!-- 
+
+<tr><td align=center>
+<input type=checkbox name='VISIBLE[]' value='FIELD_NAME' CHECKED />
+</td><td align=center>
+<input type=text name='FIELD_NAME_BOTTOM' size=5/>
+</td><td align=center>
+<= FIELD_NAME <=
+</td><td align=center>
+<input type=text name='FIELD_NAME_TOP' size=5/>
+</td></tr>
+ 
+-->
+
+<br/>
+
+
+<input type=hidden name="VISIBLE[]" value=""/>
+<input type=hidden name="PICTURE[]" value=""/>
+
+
+<input type=submit name='Get Graphs' value='Get Graphs'/> 
+<input type=reset name='Clear Form' value='Reset Form'/>
+
+</form>
+ 
+</body> 
+</html> 
