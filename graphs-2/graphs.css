@@ -1,0 +1,86 @@
+
+.query {
+background-color: lightyellow;
+border: 1px solid black;
+width: 100%;
+vertical-align: top;
+}
+
+.tool {
+background-color: lightgreen;
+margin: 1ex;
+border: 1px solid gray;
+text-align: center;
+
+}
+
+.button {
+  margin: 8px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #FFCC99;
+border-top: 2px solid #FFFFCC;
+border-left: 2px solid #FFFFCC;
+border-bottom: 2px solid #CCCC99;
+border-right:  2px solid #CCCC99;
+}
+
+
+.nestbox {
+min-height: 100px;
+}
+
+.ordertool {
+left: 2em;
+position: relative;
+top: 2px;
+}
+
+.andbox {
+background-color: lightblue;
+}
+
+.orbox {
+background-color: lightyellow;
+}
+
+#toolbox div.myAccordionActive
+{
+	background-color: #6CAF00;
+	border-top: 2px solid #80df20;
+	border-bottom: 2px solid #000;
+}
+#toolbox div.myAccordionHover
+{
+	background-color: #90ef30;
+}
+#toolbox{
+	width: 15em;
+	border: 1px solid #6CAF00;
+	vertical-align: top;
+/*	position: absolute;
+	left: 10px;
+	top: 10px;
+*/}
+.toolbox{
+	vertical-align: top;
+}
+
+#toolbox div.category{
+	line-height: 20px;
+	background-color: #003366;
+	border-top: 2px solid #006699;
+	border-bottom: 2px solid #000066;
+	padding: 0 10px;
+	font-weight: bold;
+	color: #fff;
+}
+#toolbox div.panel{
+	overflow: auto;
+}
+
+.transferer1
+{
+	border: 1px solid #000;
+}
+

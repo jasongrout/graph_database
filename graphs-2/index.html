@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<LINK href="graphs.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="jquery/jquery.js"></script>
+<script type="text/javascript" src="interface/interface.js"></script>
+<script type="text/javascript" src="graphs.js"></script>
+</HEAD>
+<BODY>
+<h1>The Graph Database</h1>
+<form id="queryform" action='graphs.php' method="POST" >
+Display <input type='text' name='rows_per_page' size=2 value='30'/> graphs on each page.  
+<input type='hidden' name='page' value='1'/>
+<input type=submit name='Get Graphs' value='Get Graphs'/> 
+<input type=reset name='Clear Form' value='Reset Form'/>
+
+<table><tr><td class="toolbox">
+<div id="toolbox" class="toolbox">
+<div class="category">Instructions</div>
+<div class="panel">
+<p>Click on a category button below to add criteria from that category.  To restrict the values of a property, click on the property.</p>
+
+<p>To change the order of criteria, click the up or down arrows.  To delete a criterion, click the trash can.
+</div>
+</div>
+</td><td id="query" class="query" function="and"><h2>Query criteria:</h2></td></tr>
+<tr><td colspan="2" id="view" class="view"></td></tr></table>
+</form>
+</BODY>
+</HTML>
